@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            padding-top: 50px;
+            color: white;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .head {
+            font-size: 60px;
+            color: black;
+        }
+
+        .form {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .div {
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .weather {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .innerweather {
+            width: 63%;
+            border: 5px solid black;
+            display: flex;
+            /* justify-content: center; */
+            align-items: center;
+            height: 45vh;
+            filter: blur(5);
+            backdrop-filter: blur(5px);
+        }
+
+        h2 {
+            font-size: 40px;
+        }
+
+        h3 {
+            font-size: 30px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .wimg {
+            width: 150px;
+            justify-self: center;
+            align-self: center;
+        }
+
+        .wbox {
+            width: 70%;
+            margin-left: 10px;
+        }
+
+        .img {
+            width: 30%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .obox {
+            margin: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ibox {
+            font-size: 25px;
+            width: 50%;
+        }
+
+        p {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .ibox1 {
+            width: 40%;
+            padding-right: 10px;
+        }
+
+        .ibox2 {
+            width: 60%;
+        }
+
+        input[type=text] {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            width: 60%;
+        }
+
+        input[type=submit] {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #333;
+            color: white;
+        }
+
+        #bg-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+        }
+
+        .weather-summary {
+            font-size: 24px;
+            margin: 0px;
+            height: 5%;
+        }
+    </style>
+</head>
+<!-- style="background-image: url('{{ weather_bg }}');" -->
+
+<body>
+    <video autoplay muted loop id="bg-video">
+        <source src="{{ weather_video }}" type="video/mp4">
+    </video>
+
+    <h1 class="head">🌤 Simple Weather App</h1>
+    <div class="div">
+        <form method="POST" class="form">
+            <input type="text" name="city" placeholder="Enter city name" required>
+            <input type="submit" value="Check Weather">
+        </form>
+    </div>
+
+    {% if weather %}
+    {% if weather.error %}
+    <p>{{ weather.error }}</p>
+    {% else %}
+    <div>
+        <div class="weather">
+            <div class="innerweather">
+                <div class="wbox">
+                    <h2>{{ weather.city }}, {{ weather.region }}, {{ weather.country }}</h2>
+                    <h3>Temp: {{ weather.temperature }}°C</h3>
+                    <div class="obox">
+                        <div class="ibox ibox1">
+                            <p>Condition: {{ weather.condition }}</p>
+                            <p>Humidity: {{ weather.humidity }}</p>
+                        </div>
+                        <div class="ibox ibox2">
+                            <p>Wind Speed: {{ weather.windkph}}Kph {{weather.winddir}}</p>
+                            <p>UV Index: {{ weather.uv }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="img">
+                    <img src="{{weather_icon}}" class="wimg" alt="Weather icon">
+                </div>
+            </div>
+        </div><br>  
+        <p class="weather-summary">{{ weather.summary }}</p>
+    </div>
+    {% endif %}
+    {% endif %}
+</body>
+
+</html>
